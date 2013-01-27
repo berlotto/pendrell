@@ -419,8 +419,8 @@ function pendrell_pre_get_posts( $query ) {
     if ( is_search() ) {
         $query->set( 'posts_per_page', 20 );
     }
-    if ( is_front_page() ) {
-    	$query->set( 'cat', $pendrell_shadow_cats );
+    if ( is_front_page() && PENDRELL_SHADOW_CATS ) {
+    	$query->set( 'cat', PENDRELL_SHADOW_CATS );
 	}
 }
 add_action( 'pre_get_posts', 'pendrell_pre_get_posts' );
