@@ -1,4 +1,4 @@
-# PENDRELL 0.2
+# PENDRELL 0.21
 
 Pendrell is a child theme for Twenty Twelve designed to allow two types of content to co-exist in harmony:
 
@@ -17,7 +17,8 @@ This theme has no options page; you will have to get your feet wet and modify th
 
 The following plugins are not quite dependencies but you will probably want to install them to get the most out of Pendrell:
 
-* Crowd Favorite's WP-Post-Formats plugin: https://github.com/crowdfavorite/wp-post-formats
+* Crowd Favorite's WP-Post-Formats plugin: https://github.com/crowdfavorite/wp-post-formats OR...
+* My fork of the same: https://github.com/synapticism/wp-post-formats
 * Regenerate Thumbnails: http://wordpress.org/extend/plugins/regenerate-thumbnails/
 
 ## USING THE PORTFOLIO FEATURES
@@ -76,6 +77,7 @@ In no particular order...
 
 * Internationalization (i18n)
 * Serif, sans-serif, and monospace font stack switching
+* Nicer ampersands: http://css-tricks.com/using-the-best-ampersand-available/
 * Smart 404 page
 * Better gallery styling
 * AJAXify image attachment pages
