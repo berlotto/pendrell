@@ -120,20 +120,22 @@ article.format-quote .entry-content blockquote {
 	font-style: italic;
 	font-size: 18px;
 	font-size: 1.285714286rem;
+	line-height: 1.6;
 	background: #f8f8f8;
 	border-radius: 3px;
 }
+/* Add opening and closing quotation marks to the blockquote element */
 .format-quote blockquote p:first-child::before {
 	content: "\201C";
 }
 .format-quote blockquote p:last-child::after {
 	content: "\201D";
 }
-article.format-quote .entry-content article {
-	margin: 0;
-	padding: 0;
-	border: 0;
+/* Insert a horizontal bar or quotation dash prior to the attribution */
+article.format-quote article footer:before {
+	content: "\2015";
 }
+/* Styling the attribution line */
 article.format-quote article footer {
 	font-size: 16px;
 	font-size: 1.142857143rem;
@@ -141,6 +143,12 @@ article.format-quote article footer {
 	text-align: right;
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
+}
+/* Reset the Twenty Twelve styling on nested article elements */
+article.format-quote .entry-content article {
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 
 /* Status */

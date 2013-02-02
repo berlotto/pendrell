@@ -11,8 +11,6 @@ if ( is_readable( get_stylesheet_directory() . '/functions-config.php' ) ) {
 } else {
 	require_once( get_stylesheet_directory() . '/functions-config-sample.php' );
 }
-if ( is_admin() )
-	require_once( get_stylesheet_directory() . '/functions-admin.php' );
 
 function pendrell_setup() {
 	// Add full post format support
@@ -274,67 +272,6 @@ function twentytwelve_entry_meta() {
 
 }
 
-// Redirect user to single search result: http://wpglee.com/2011/04/redirect-when-search-query-only-returns-one-match/
-function pendrell_search_redirect() {
-    if ( is_search() && !empty( $_GET['s'] ) ) {
-        global $wp_query;
-        if ( $wp_query->post_count == 1 ) {
-            wp_redirect( get_permalink( $wp_query->posts['0']->ID ) );
-        } else {
-			wp_redirect( site_url( '/search/' ) . get_search_query() );
-		}
-    }
-}
-add_action( 'template_redirect', 'pendrell_search_redirect' );
-
-// Allow HTML in author descriptions on single user blogs
-remove_filter( 'pre_user_description', 'wp_filter_kses' );
-
-// Display EXIF data for photographs
-function pendrell_image_info( $metadata = array() ) {
-	if ( $metadata['image_meta'] ) {
-		?><div class="image-info">
-			<h2><?php _e( 'Image Info', 'pendrell' ); ?></h2>
-			<div class="image-description">
-			<?php if ( $metadata['height'] && $metadata['width'] ) { 
-					printf( __( 'Full Size: <a href="%1$s" title="Link to full size image">%2$s &times; %3$s</a></br>', 'pendrell' ),
-						esc_attr( wp_get_attachment_url() ),
-						$metadata['width'],
-						$metadata['height']
-					);
-				}
-				if ( $metadata['image_meta']['created_timestamp'] ) { printf( __( 'Taken: %s<br/>', 'pendrell' ), date( get_option( 'date_format' ), $metadata['image_meta']['created_timestamp'] ) ); }
-				if ( $metadata['image_meta']['camera'] ) { printf( __( 'Camera: %s</br>', 'pendrell' ), $metadata['image_meta']['camera'] ); }
-				if ( $metadata['image_meta']['focal_length'] ) { printf( __( 'Focal Length: %s mm<br/>', 'pendrell' ), $metadata['image_meta']['focal_length'] ); }
-				if ( $metadata['image_meta']['aperture'] ) { printf( __( 'Aperture: f/%s<br/>', 'pendrell' ), $metadata['image_meta']['aperture'] ); }
-				if ( $metadata['image_meta']['shutter_speed'] ) {
-					// Based on http://technology.mattrude.com/2010/07/display-exif-data-on-wordpress-gallery-post-image-2/
-					$image_shutter_speed = $metadata['image_meta']['shutter_speed'];
-					if ( $image_shutter_speed > 0 ) {
-						if ( ( 1 / $image_shutter_speed ) > 1 ) {
-							if ( ( number_format( (1 / $image_shutter_speed ), 1 ) ) == 1.3
-							or number_format( ( 1 / $image_shutter_speed ), 1 ) == 1.5
-							or number_format( ( 1 / $image_shutter_speed ), 1 ) == 1.6
-							or number_format( ( 1 / $image_shutter_speed ), 1 ) == 2.5) {
-								$pshutter = '1/' . number_format( ( 1 / $image_shutter_speed ), 1, '.', '') . ' ' . __( 'sec', 'pendrell');
-							} else {
-								$pshutter = '1/' . number_format( ( 1 / $image_shutter_speed ), 0, '.', '') . ' ' . __( 'sec', 'pendrell' );
-							}
-						} else {
-							$pshutter = $image_shutter_speed . ' ' . __( 'sec', 'pendrell' );
-						}
-					}
-			
-			
-			echo __( 'Shutter Speed: ', 'pendrell' ) . $pshutter . '<br/>';
-				}
-				if ( $metadata['image_meta']['iso'] ) { echo __( 'ISO/Film: ', 'pendrell') . $metadata['image_meta']['iso'] . '<br/>'; } ?>
-			</div>
-		</div>
-<?php
-	}
-}
-
 // Footer credits
 function pendrell_credits() {
 	printf( __( '<a href="%1$s" title="%2$s" rel="generator">Powered by WordPress</a> and themed with <a href="%3$s" title="%4$s">Pendrell %5$s</a>.', 'pendrell' ),
@@ -387,29 +324,6 @@ function pendrell_is_portfolio() {
 	}
 }
 
-function pendrell_post_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-	// Source: http://wpengineer.com/1735/easier-better-solutions-to-get-pictures-on-your-posts/
-	if ( empty( $html ) ) {
-		$attachments = get_children( array(
-			'post_parent'    => get_the_ID(),
-			'post_type'      => 'attachment',
-			'numberposts'    => 1,
-			'post_status'    => 'inherit',
-			'post_mime_type' => 'image',
-			'order'          => 'ASC',
-			'orderby'        => 'menu_order ASC'
-		), ARRAY_A );
-
-		if ( $attachments ) {
-			echo wp_get_attachment_image( current( array_keys( $attachments ) ), $size );
-		}
-		// To do: add a default thumbnail!
-	} else {
-		return $html;
-	}
-}
-add_filter( 'post_thumbnail_html', 'pendrell_post_thumbnail', 11, 5 );
-
 function pendrell_pre_get_posts( $query ) {
 	// Modify how many posts per page are displayed in different contexts (e.g. more portfolio items on category archives)
 	// Source: http://wordpress.stackexchange.com/questions/21/show-a-different-number-of-posts-per-page-depending-on-context-e-g-homepage
@@ -432,63 +346,3 @@ if ( !is_multi_author() ) {
 
 // Ditch the default gallery styling, yuck
 add_filter( 'use_default_gallery_style', '__return_false' );
-
-
-
-// === DEVELOPMENT AREA === //
-// Everything below here might or might not be working... when it has been developed and tested move it above this line
-
-// 404 (TO DO); some suggestions: http://www.alistapart.com/articles/perfect404/ http://justintadlock.com/archives/2009/05/13/customize-your-404-page-from-the-wordpress-admin
-function pendrell_404() {
-	?><h2><?php _e( 'Nothing found', 'pendrell' ); ?></h2>
-	
-<?php // Prefill the search form with a half-decent guess.
-	$search_term = esc_url( $_SERVER['REQUEST_URI'] );
-	pendrell_search_form( $search_term ); 
-}
-
-// Smarter search form
-function pendrell_search_form( $search_term = '' ) {
-	global $search_num;
-	++$search_num;
-	?>
-				<form id="search-form<?php if ( $search_num ) echo "-{$search_num}"; ?>" method="get" action="<?php echo trailingslashit( home_url() ); ?>">
-					<div>
-						<input type="search" id="search-text<?php if ( $search_num ) echo "-{$search_num}"; ?>" class="search-field" name="s" value="<?php 
-							if ( is_search() ) {
-								the_search_query();
-							} elseif ( !empty( $search_term) ) {
-								echo $search_term;
-							} else {
-								_e( 'Search for&hellip;', 'pendrell' ); ?>" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;<?php
-							} ?>" />
-						<input type="submit" id="search-submit<?php if ( $search_num ) echo "-{$search_num}"; ?>" class="search-submit button" value="<?php _e( 'Go!', 'pendrell' ); ?>" />
-					</div>
-				</form>
-<?php 
-}
-
-// Excerpt functions from Twentyeleven, slightly modified
-function pendrell_continue_reading_link() {
-	return ' <a href="'. esc_url( get_permalink() ) . '">' . __( 'Continue reading&nbsp;&rarr;', 'plasticity' ) . '</a>';
-}
-add_filter( 'the_content_more_link', 'pendrell_continue_reading_link');
-function pendrell_auto_excerpt_more( $more ) {
-	return '&hellip;' . pendrell_continue_reading_link();
-}
-add_filter( 'excerpt_more', 'pendrell_auto_excerpt_more' );
-function pendrell_custom_excerpt_more( $output ) {
-	if ( has_excerpt() && ! is_attachment() ) {
-		$output .= pendrell_continue_reading_link();
-	}
-	return $output;
-}
-add_filter( 'get_the_excerpt', 'pendrell_custom_excerpt_more' );
-
-// Custom excerpt length; source: http://digwp.com/2010/03/wordpress-functions-php-template-custom-functions/
-function pendrell_excerpt_length( $length ) {
-	return 48;
-}
-add_filter( 'excerpt_length', 'pendrell_excerpt_length' );
-
-?>

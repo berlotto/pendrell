@@ -55,7 +55,7 @@ if ( $source_name || $source_title || $source_url ) {
 					<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?>
 				</blockquote>
 				<?php if ( !empty( $source ) ) { ?><footer>
-					&#8213;<?php echo $source; ?>
+					<?php echo $source; ?>
 				</footer><?php } ?>
 			</article>
 		</div><!-- .entry-content -->

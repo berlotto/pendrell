@@ -33,4 +33,16 @@ if ( is_admin() ) {
 	define( 'PENDRELL_FONTSIZE_EDITOR', '16px' ); // Admin HTML editor font size.
 }
 
-?>
+// === PENDRELL MODULES === //
+
+// Easily disable any of this stuff by commenting it out. 
+include( get_stylesheet_directory() . '/functions/feed.php' );
+include( get_stylesheet_directory() . '/functions/images.php' );
+include( get_stylesheet_directory() . '/functions/search.php' );
+include( get_stylesheet_directory() . '/functions/various.php' );
+
+if ( is_admin() )
+	require_once( get_stylesheet_directory() . '/functions/admin.php' );
+
+// If development mode is on...
+include( get_stylesheet_directory() . '/functions/dev.php' );
