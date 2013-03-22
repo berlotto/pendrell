@@ -1,4 +1,4 @@
-/*   
+/*
 Theme Name: Pendrell
 Theme URI: http://synapticism.com
 Author: Alexander Synaptic
@@ -85,6 +85,18 @@ body.full-width .widget-area {
 /* Show the author in entry meta on pages */
 .page .entry-meta .by-author {
 	display: inline;
+}
+
+/* Post series */
+.entry-meta-series {
+	font-size: 16px;
+	font-size: 1.142857143rem;
+	line-height: 1.846153846;
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+}
+.entry-meta-series ol {
+	list-style: decimal inside;
 }
 
 

@@ -1,4 +1,4 @@
-# PENDRELL 0.21
+# PENDRELL 0.22
 
 Pendrell is a child theme for Twenty Twelve designed to allow two types of content to co-exist in harmony:
 
