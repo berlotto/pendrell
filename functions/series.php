@@ -82,7 +82,7 @@ function pendrell_in_series() {
 
 // Display post series in forward chronological order
 function pendrell_series_get_posts( $query ) {
-	if( is_tax ( 'series' ) ) {
+	if ( is_tax ( 'series' ) && $query->is_main_query() ) {
 		$query->set( 'order', 'ASC' );
 	}
 	return $query;

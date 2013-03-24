@@ -230,10 +230,10 @@ function twentytwelve_entry_meta() {
 function pendrell_pre_get_posts( $query ) {
 	// Modify how many posts per page are displayed in different contexts (e.g. more portfolio items on category archives)
 	// Source: http://wordpress.stackexchange.com/questions/21/show-a-different-number-of-posts-per-page-depending-on-context-e-g-homepage
-    if ( pendrell_is_portfolio() ) {
+    if ( pendrell_is_portfolio() && $query->is_main_query() ) {
     	$query->set( 'posts_per_page', 24 );
     }
-    if ( is_search() ) {
+    if ( is_search() && $query->is_main_query() ) {
         $query->set( 'posts_per_page', 20 );
     }
     if ( is_front_page() && PENDRELL_SHADOW_CATS ) {
