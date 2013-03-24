@@ -1,12 +1,7 @@
-<?php
-// Post series
-
+<?php // Everything you need to implement a quick and dirty post series custom taxonomy
 function pendrell_series_init() {
-	// Add new "Series" taxonomy to Posts
-	register_taxonomy('series', 'post', array(
-		// Hierarchical taxonomy (like categories)
+	register_taxonomy( 'series', 'post', array(
 		'hierarchical' => false,
-		// This array of options controls the labels displayed in the WordPress Admin UI
 		'labels' => array(
 			'name' => _x( 'Series', 'taxonomy general name' ),
 			'singular_name' => _x( 'Series', 'taxonomy singular name' ),
@@ -20,11 +15,9 @@ function pendrell_series_init() {
 			'new_item_name' => __( 'New Series Name' ),
 			'menu_name' => __( 'Series' ),
 		),
-		// Control the slugs used for this taxonomy
 		'rewrite' => array(
-			'slug' => 'series', // This controls the base slug that will display before each term
-			'with_front' => false, // Don't display the category base
-			'hierarchical' => true // This will allow URL's like "/locations/boston/cambridge/"
+			'slug' => 'series',
+			'with_front' => false
 		),
 	));
 }
@@ -34,11 +27,19 @@ function pendrell_series_list() {
 
 	global $post;
 
+	// Only display the post series list on the single post view
 	if ( is_single() ) {
-		$series_terms = wp_get_post_terms( $post->ID, 'series' );
+
+		// Fetch a list of post series the current post is a part of
+		$series_terms = wp_get_post_terms( $post->ID, 'series', array(
+			'orderby' => 'name', // Defaults to alphabetical order; also: count, slug, or term_id
+			'order' => 'ASC'
+		) );
 
 		if ( $series_terms ) {
 			foreach ( $series_terms as $series_term ) {
+
+				// Fetch a list of posts in a given series in chronological order
 				$series_query = new WP_Query( array(
 					'order' => 'ASC',
 					'tax_query' => array(
@@ -50,8 +51,8 @@ function pendrell_series_list() {
 					)
 				) );
 
-				// Display the list of posts in the series
-				if ( $series_query->have_posts() ): ?>
+				// Display the list of posts in the series only if there is more than one post in that series
+				if ( $series_query->have_posts() && ( $series_query->found_posts > 1 ) ): ?>
 				<div class="entry-meta-series">
 					<h2><?php printf( __( 'This post is a part of the &#8216;<a href="%1$s">%2$s</a>&#8217; series:', 'pendrell' ),
 						get_term_link( $series_term->slug, 'series' ),
@@ -61,7 +62,7 @@ function pendrell_series_list() {
 					<?php while ( $series_query->have_posts() ) : $series_query->the_post(); ?>
 						<li><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></li>
 					<?php endwhile; wp_reset_postdata(); ?>
-					</ol><!--// end .postlist -->
+					</ol>
 				</div>
 				<?php endif;
 			}
@@ -79,8 +80,9 @@ function pendrell_in_series() {
 	}
 }
 
+// Display post series in forward chronological order
 function pendrell_series_get_posts( $query ) {
-	if( is_tax ( 'series') ) {
+	if( is_tax ( 'series' ) ) {
 		$query->set( 'order', 'ASC' );
 	}
 	return $query;
