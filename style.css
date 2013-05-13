@@ -41,7 +41,11 @@ img.header-image {
 	border-bottom-left-radius: 3px;
 }
 .site-header .site-title, .site-header .site-description {
-	clear: none;
+	clear: both;
+}
+
+hgroup h1,hgroup h2{
+	float: none;
 }
 
 
@@ -572,6 +576,7 @@ img.no-shadow {
 	/* Header */
 	.with-header-image {
 		position: absolute;
+		min-width: 200px;
 		bottom: 0px;
 		left: 0px;
 		max-width: 66%;
@@ -748,4 +753,8 @@ article.format-aside p:last-child {
     padding: 5px 10px;
     text-decoration: none;
     float: right;
+}
+
+.author-info{
+	clear: both;
 }
