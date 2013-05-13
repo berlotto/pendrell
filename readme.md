@@ -1,4 +1,4 @@
-# PENDRELL 0.2
+# PENDRELL 0.3
 
 Pendrell is a child theme for Twenty Twelve designed to allow two types of content to co-exist in harmony:
 
@@ -7,7 +7,9 @@ Pendrell is a child theme for Twenty Twelve designed to allow two types of conte
 
 Many WordPress themes provide for one or the other but few handle both types of content with elegance, flexibility, and simplicity. 
 
-See Pendrell in action on my blog: http://synapticism.com
+See Pendrell in action on my blog: http://synapticism.com and http://pythonrs.org
+
+This version is a new version for a different layout. Updated by Sergio Berlotto.
 
 ## INSTALLATION & CONFIGURATION
 
