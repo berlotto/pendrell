@@ -14,7 +14,7 @@ define( 'PENDRELL_GOOGLE_ANALYTICS_CODE', false ); // Google Analytics code e.g.
 $pendrell_post_formats = array( 'quote', 'status', 'video', 'image', 'gallery' );
 
 // Portfolio categories; add or remove any slug to this array to enable matching categories with portfolio functionality
-$pendrell_portfolio_cats = array( 'creative', 'design', 'photography', 'portfolio' );
+$pendrell_portfolio_cats = array( 'foto', 'imagem', );
 
 // Admin
 if ( is_admin() ) {
