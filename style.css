@@ -14,6 +14,9 @@ Template: twentytwelve
 @import url("../twentytwelve/style.css");
 
 
+a, h1, h2, h3, h4, h5, h6, p, li, span, div, body{
+	font-family: 'Pontano Sans', sans-serif;
+}
 
 /* === HEADER === */
 
@@ -74,10 +77,10 @@ body.full-width .widget-area {
 }
 
 /* Needs some tweaking; long entry meta info will cause the buttons to slide to the next line */
-.entry-meta-buttons {
+/*.entry-meta-buttons {
 	float: right;
 }
-.edit-link, .leave-reply {
+*/.edit-link, .leave-reply {
 	margin-left: 12px;
 	margin-left: 0.857142857rem;
 }
@@ -262,12 +265,116 @@ article.format-quote footer.entry-meta .attribution {
 	text-transform: uppercase;
 	font-weight: bold;
 }
+.nav-menu {
+    background: none repeat scroll 0 0 #EEEEEE;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+.nav-single {
+    background-color: rgba(230, 230, 230, 0.5);
+    border-radius: 5px 5px 5px 5px;
+    padding: 4px 15px;
+}
 .attachment-image-navigation {
 	border-radius: 3px;
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
+.menu-principal-container {
+    border-bottom: 1px solid #C5C5C5;
+    border-top: 1px solid #C5C5C5;
+}
 
+.main-navigation.top-navigation {
+    background: none repeat scroll 0 0 #454545;
+    margin-top: 0;
+    padding: 0;
+    text-align: right;
+}
 
+.main-navigation.top-navigation li{
+	margin: 1em 1em 0 0;
+	height: 35px;
+}
+.main-navigation.top-navigation li a{
+	color: #fff;
+	font-size: 8pt;
+}
+
+.main-navigation {
+    left: -40px;
+    top: -15px;
+    margin-top: 1.71429rem;
+    position: relative;
+    text-align: center;
+    width: 1040px;
+}
+
+header.entry-header h1.entry-title a {
+	font-family: 'Raleway', sans-serif;
+}
+
+header.entry-header h1.entry-title {
+    /*background-color: rgba(255,241,194,0.5);*/
+    border-bottom: 1px solid #c5c5c5;
+    border-radius: 10px 10px 0 0;
+    font-size: 20pt;
+    left: -15px;
+    padding: 5px 0 5px 15px;
+    position: relative;
+    top: -15px;
+    width: 950px;
+}
+
+.entry-meta {
+    /*border-top: 1px dotted #C5C5C5;*/
+    padding-top: 5px;
+    width: 920px;
+}
+
+.entry-information {
+    /*background-color: red;*/
+    float: left;
+    width: 700px;
+    margin-bottom: 10px;
+}
+
+.entry-information div{
+	float: left;
+	margin-right: 5px;
+}
+
+.entry-information div img{
+	width:12px;
+	margin-right: 5px;
+}
+
+.attachment-frontpage-thumb {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.entry-meta-buttons{
+	float: left;
+    text-align: right;
+    width: 200px;
+}
+
+.site-content{
+	width: 100%;
+}
+
+.site-content article {
+    /*-moz-hyphens: auto;*/
+    /*border: 1px solid #DDDDDD;
+    */border-radius: 10px 10px 10px 10px;
+    /*box-shadow: 2px 2px 5px #C5C5C5;*/
+    /*margin-bottom: 5.14286rem;*/
+    padding: 15px;
+    width: 100%;
+    border-bottom: 0;
+    /*word-wrap: break-word;*/
+}
 
 /* === PORTFOLIO ITEMS === */
 
@@ -606,4 +713,39 @@ article.format-aside p:last-child {
 	/* still need this to play nice with existing vertical rhythm */
 	margin: 0 0 12px 12px;
 	padding: 20px 0 20px 0;
+}
+
+.site-info{
+	clear: both;
+}
+
+.sidebar-footer{
+	width:33%;
+}
+
+.sidebar-footer ol, .sidebar-footer li, .sidebar-footer ul{
+	list-style: none outside none;
+}
+
+#sidebar-footer-left, #sidebar-footer-center{
+	float:left;
+}
+#sidebar-footer-right{
+	float: right;
+}
+
+.fontemenor table td div.line code{
+	font-size: 10pt !important;
+}
+
+.read-more {
+    border: 1px solid #ccc;
+    border-radius: 4px 4px 4px 4px;
+    color: #333;
+    padding: 7px;
+    font-size: 12pt;
+    line-height: 15px;
+    padding: 5px 10px;
+    text-decoration: none;
+    float: right;
 }

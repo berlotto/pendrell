@@ -18,7 +18,43 @@ function pendrell_setup() {
 	// Add full post format support
 	global $pendrell_post_formats;
 	add_theme_support( 'post-formats', $pendrell_post_formats );
-	
+	add_image_size( 'frontpage-thumb', 150, 150 );
+
+	register_nav_menu( 'topmenu', 'Top menu' );
+
+	if ( function_exists('register_sidebar') ) {
+		register_sidebar(array(
+			'name' => 'Footer Sidebar Left',
+			'id' => 'footer-sidebar-left',
+			'description' => 'Appears as the sidebar on the footer, at left',
+			// 'before_widget' => '<div style="height: 280px"></div><li id="%1$s" class="widget %2$s">',
+			// 'after_widget' => '</li>',
+			// 'before_title' => '<h2 class="widgettitle">',
+			// 'after_title' => '</h2>',
+			));
+	}	
+	if ( function_exists('register_sidebar') ) {
+		register_sidebar(array(
+			'name' => 'Footer Sidebar Center',
+			'id' => 'footer-sidebar-center',
+			'description' => 'Appears as the sidebar on the footer, at center',
+			// 'before_widget' => '<div style="height: 280px"></div><li id="%1$s" class="widget %2$s">',
+			// 'after_widget' => '</li>',
+			// 'before_title' => '<h2 class="widgettitle">',
+			// 'after_title' => '</h2>',
+			));
+	}	
+	if ( function_exists('register_sidebar') ) {
+		register_sidebar(array(
+			'name' => 'Footer Sidebar Right',
+			'id' => 'footer-sidebar-right',
+			'description' => 'Appears as the sidebar on the footer, at right',
+			// 'before_widget' => '<div style="height: 280px"></div><li id="%1$s" class="widget %2$s">',
+			// 'after_widget' => '</li>',
+			// 'before_title' => '<h2 class="widgettitle">',
+			// 'after_title' => '</h2>',
+			));
+	}	
 	// Add a few additional image sizes for various purposes
 	add_image_size( 'thumbnail-150', 150, 150 );
 	add_image_size( 'image-navigation', 150, 80, true );
@@ -231,25 +267,39 @@ function twentytwelve_entry_meta() {
 	}
 
 	// Translators: 1 is category, 2 is tag, 3 is the date, 4 is the author's name, 5 is post format, and 6 is post parent.
-	if ( $tag_list && ( $post_format === false ) ) {
-		// Posts with tags and categories
-		$utility_text = __( 'This %5$s was posted %3$s in %1$s and tagged %2$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
-	} elseif ( $categories_list && ( $post_format === false ) ) {
-		// Posts with no tags
-		$utility_text = __( 'This %5$s was posted %3$s in %1$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
-	} elseif ( is_attachment() && wp_attachment_is_image() && $post->post_parent ) {
-		// Images with a parent post
-		$utility_text = __( 'This %5$s was posted %3$s in %6$s.', 'pendrell' );
-	} elseif ( is_page() && $post->post_parent ) {
-		// Pages with a parent (sub-pages)
-		$utility_text = __( 'This page was posted under %6$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
-	} elseif ( is_page() ) {
-		// Pages
-		$utility_text = __( 'This page was posted<span class="by-author"> by %4$s</span>.', 'pendrell' );
-	} else {
-		// Post formats
-		$utility_text = __( 'This %5$s was posted %3$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
-	}
+
+	$utility_text = "<div class='entry-information'>";
+	if( !is_single() ):
+
+		$utility_text .= '<div class="meta-author"><img src="%7$s/icons/author.png">%4$s</div>';
+		$utility_text .= '<div class="meta-date"><img src="%7$s/icons/calendar.png">%3$s</div>';
+		$utility_text .= '<div class="meta-category"><img src="%7$s/icons/category.png">%1$s</div>';
+		$utility_text .= '<div class="meta-tag"><img src="%7$s/icons/tags.png">%2$s</div>';
+
+	else:
+
+		if ( $tag_list && ( $post_format === false ) ) {
+			// Posts with tags and categories
+			$utility_text .= __( 'This %5$s was posted %3$s in %1$s and tagged %2$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
+		} elseif ( $categories_list && ( $post_format === false ) ) {
+			// Posts with no tags
+			$utility_text .= __( 'This %5$s was posted %3$s in %1$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
+		} elseif ( is_attachment() && wp_attachment_is_image() && $post->post_parent ) {
+			// Images with a parent post
+			$utility_text .= __( 'This %5$s was posted %3$s in %6$s.', 'pendrell' );
+		} elseif ( is_page() && $post->post_parent ) {
+			// Pages with a parent (sub-pages)
+			$utility_text .= __( 'This page was posted under %6$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
+		} elseif ( is_page() ) {
+			// Pages
+			$utility_text .= __( 'This page was posted<span class="by-author"> by %4$s</span>.', 'pendrell' );
+		} else {
+			// Post formats
+			$utility_text .= __( 'This %5$s was posted %3$s<span class="by-author"> by %4$s</span>.', 'pendrell' );
+		}
+		$utility_text .= "</div>";
+
+	endif;
 
 	printf(
 		$utility_text,
@@ -258,19 +308,18 @@ function twentytwelve_entry_meta() {
 		$date,
 		$author,
 		$format,
-		$parent
+		$parent,
+		dirname( get_bloginfo('stylesheet_url') )
 	);
 
-	?><div class="entry-meta-buttons"><?php
-	
-	edit_post_link( __( 'Edit', 'twentytwelve' ), ' <span class="edit-link button">', '</span>' );
+	# edit_post_link( __( 'Edit', 'twentytwelve' ), ' <span class="edit-link button">', '</span>' );
 	
 	if ( comments_open() && !is_singular() ) { ?>
-		<span class="leave-reply button"><?php comments_popup_link( __( 'Respond', 'pendrell' ), __( '1 Response', 'pendrell' ), __( '% Responses', 'pendrell' ) );
-		?></span><?php 
+		<div class="meta-comments">
+			<img src="<?php echo dirname( get_bloginfo('stylesheet_url') );?>/icons/comments.png">
+			<?php comments_popup_link( __( 'Comentar', 'pendrell' ), __( '1 Comentário', 'pendrell' ), __( '% Comentários', 'pendrell' ) );?></div>
+		<?php 
 	}
-
-	?></div><?php
 
 }
 
@@ -337,12 +386,13 @@ function pendrell_image_info( $metadata = array() ) {
 
 // Footer credits
 function pendrell_credits() {
-	printf( __( '<a href="%1$s" title="%2$s" rel="generator">Powered by WordPress</a> and themed with <a href="%3$s" title="%4$s">Pendrell %5$s</a>.', 'pendrell' ),
+	printf( __( '<a href="%1$s" title="%2$s" rel="generator">Powered by WordPress</a> and themed with <a href="%3$s" title="%4$s">Pendrell %5$s</a>. <a href="http://about.me/sergioberlotto">Updated by Sérgio Berlotto</a>, Icons by <a href="%6$s">glyphicons</a>', 'pendrell' ),
 		esc_url( __( 'http://wordpress.org/', 'twentytwelve' ) ),
 		esc_attr( __( 'Semantic Personal Publishing Platform', 'twentytwelve' ) ),
 		esc_url( __( 'http://github.com/Synapticism/pendrell', 'pendrell' ) ),
 		esc_attr( __( 'Pendrell: Twenty Twelve Child Theme by Alexander Synaptic', 'pendrell' ) ),
-		PENDRELL_VERSION
+		PENDRELL_VERSION,
+		esc_url( __('http://glyphicons.com/','pendrell') )
 	);
 }
 add_action( 'twentytwelve_credits', 'pendrell_credits' );
@@ -473,8 +523,10 @@ function pendrell_continue_reading_link() {
 	return ' <a href="'. esc_url( get_permalink() ) . '">' . __( 'Continue reading&nbsp;&rarr;', 'plasticity' ) . '</a>';
 }
 add_filter( 'the_content_more_link', 'pendrell_continue_reading_link');
+
 function pendrell_auto_excerpt_more( $more ) {
-	return '&hellip;' . pendrell_continue_reading_link();
+	return '...<br><a class="read-more" href="'. get_permalink( get_the_ID() ) . '">Leia mais</a>';
+	// return '&hellip;' . pendrell_continue_reading_link();
 }
 add_filter( 'excerpt_more', 'pendrell_auto_excerpt_more' );
 function pendrell_custom_excerpt_more( $output ) {
@@ -490,5 +542,13 @@ function pendrell_excerpt_length( $length ) {
 	return 48;
 }
 add_filter( 'excerpt_length', 'pendrell_excerpt_length' );
+
+function remove_some_widgets(){
+
+	// Unregister some of the TwentyTwelve sidebars
+	unregister_sidebar( 'sidebar-1' );
+
+}
+add_action( 'widgets_init', 'remove_some_widgets', 11 );
 
 ?>

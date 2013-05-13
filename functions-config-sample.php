@@ -1,5 +1,5 @@
 <?php // === PENDRELL CONFIGURATION === //
-define( 'PENDRELL_VERSION', 0.2 );
+define( 'PENDRELL_VERSION', 0.3 );
 define( 'PENDRELL_NAME', get_bloginfo( 'name' ) );
 define( 'PENDRELL_DESC', get_bloginfo( 'description' ) );
 define( 'PENDRELL_HOME', get_bloginfo( 'url' ) );
@@ -11,7 +11,7 @@ define( 'PENDRELL_FONTSTACK', false ); // Choose a pre-defined font stack: sans,
 define( 'PENDRELL_GOOGLE_ANALYTICS_CODE', false ); // Google Analytics code e.g. 'UA-XXXXXX-XX'; false when not in use
 
 // Post formats; choose from array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'audio', 'chat', 'video' );
-$pendrell_post_formats = array( 'link', 'quote', 'status' );
+$pendrell_post_formats = array( 'quote', 'status', 'video', 'image', 'gallery' );
 
 // Portfolio categories; add or remove any slug to this array to enable matching categories with portfolio functionality
 $pendrell_portfolio_cats = array( 'creative', 'design', 'photography', 'portfolio' );

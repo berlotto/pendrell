@@ -49,7 +49,16 @@ if ( pendrell_is_portfolio() && is_archive() ) { // Portfolio archive items
 		</div><!-- .entry-summary -->
 		<?php else : ?>
 		<div class="entry-content">
-			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentytwelve' ) ); ?>
+			<?php 
+				if( !is_single() ):
+					#Na listagem da capa mostra somente os Excerpts.
+					the_post_thumbnail( 'frontpage-thumb' );
+					the_excerpt(); 
+				else:
+					#Na pagina do post, mostra ele completo.
+					the_content();
+				endif;
+			?>
 			<?php wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'twentytwelve' ), 'after' => '</div>' ) ); ?>
 		</div><!-- .entry-content -->
 		<?php endif; ?>
